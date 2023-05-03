@@ -18,7 +18,7 @@ class Site:
         for parser in self.parsers:
             if parser.valid_file_ext(ext):
                 return parser
-                
+
     def run_parser(self, path):
         parser = self.load_parser(path.suffix)
         if parser is not None:
@@ -33,3 +33,6 @@ class Site:
         self.dest.mkdir(parents=True, exist_ok=True)
         for path in self.source.rglob("*"):
             if path.is_dir():
+                self.create_dir(path)
+            elif path.is_file():
+                self.run_parser(path)    
